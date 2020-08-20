@@ -1,0 +1,94 @@
+html, body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Courier New', Courier, monospace
+}
+
+#menu {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3) ;
+    transition: all 0.2s ease-in-out;
+    transform-origin: center center;
+}
+
+.edit-open {
+    transform-origin: top left;
+    right: -400px !important;
+}
+
+#menu > img {
+    position: relative;
+    top: 12px;
+    right: -12px;
+    max-width: 35px;
+}
+
+#menu:hover {
+    transform: scale(1.1);
+}
+
+#edit {
+    position: absolute;
+    width: 400px !important;
+    height: 500px !important;
+    right: 20px;
+    top: 100px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3) ;
+    transition: all 0.4s ease-in-out;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 18pt;
+    color:black ;
+}
+
+.color-list {
+    list-style-type: none;
+    counter-reset: color;
+}
+
+.color-input {
+    width: 50px;
+    border: none;
+    border-bottom: 1px solid gray;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12pt;
+    text-align: center;
+}
+
+.color-input:focus {
+    border: none;
+    border-bottom: 1px solid black;
+    outline:0;
+}
+
+.color-list > li {
+    margin-top: 10px;
+}
+
+.color-list > li:before {
+    content: "Color " counter(color) ": ";
+    counter-increment: color;
+    font-weight: bold;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}

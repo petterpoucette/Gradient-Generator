@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<link rel="stylesheet" href="styles/main.css">
+<script type="text/javascript" src="colorTranslate.js"></script>
+</head>
+<body>
+    <div id="menu" onclick="toggleMenu('edit')">
+        <img src="assets/code.png" />
+    </div>
+
+    <div id="edit">
+        <h1>Gradient generator</h1>
+        <ul id="color-list" class="color-list"></ul>
+        <p id="code"></p>
+        <input onclick="addColor()" type="button" value="Add Color">
+
+    </div>
+    
+    <script src="scripts/color.js"></script>
+    <script src="scripts/gradient.js"></script>
+    <script src="scripts/controller.js"></script>
+    <script src="scripts/update.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+
+</html>
