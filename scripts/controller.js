@@ -4,6 +4,44 @@
  */
 
 
+function toggleSettings(e){
+    console.log(e.getAttribute("open"));
+    if(e.getAttribute("open") == "false"){
+        e.style.setProperty('--left-after', '0')
+        e.style.setProperty('--left-before', '0')
+        e.style.setProperty('--width', '14px')
+    
+        setTimeout(() => {
+            e.style.setProperty('width', '0')
+            e.style.setProperty('--height', '4px')
+            e.style.setProperty('--rotate-after', '-45deg')
+            e.style.setProperty('--rotate-before', '45deg')
+            e.style.setProperty('--top-after', '-1px')
+            e.style.setProperty('--top-before', '1px')
+        }, 300);
+        e.setAttribute("open", "true")
+    } else if(e.getAttribute("open") == "true"){
+        
+        e.style.setProperty('--height', '6px')
+        e.style.setProperty('--rotate-after', '0deg')
+        e.style.setProperty('--rotate-before', '0deg')
+        e.style.setProperty('--top-after', '0')
+        e.style.setProperty('--top-before', '0')
+       
+        setTimeout(() => {
+            e.style.setProperty('width', '6px')
+            e.style.setProperty('--left-after', '24px')
+            e.style.setProperty('--left-before', '12px')
+            e.style.setProperty('--width', '6px')
+        }, 300);
+        e.setAttribute("open", "false")
+    }
+
+
+    
+
+}
+
 /**
  * Toggle the edit menu
  * @param {HTMLElement} el - Menu to toggle

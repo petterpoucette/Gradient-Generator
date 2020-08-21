@@ -92,3 +92,44 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance:textfield; /* Firefox */
 }
+
+.color-settings {
+    position: relative;
+    top: 20px;
+    left: 20px;
+    width: 6px;
+    height: 6px;
+    background-color: gray;
+    border-radius: 3px;
+    --left-before:12px;
+    --left-after: 24px;
+    --width: 6px;
+    --height: 6px;
+    --rotate-before: 0deg;
+    --rotate-after: 0deg;
+    --top-before: 0;
+    --top-after: 0;
+}
+
+.color-settings:before, .color-settings:after{
+    content: '';
+    position: absolute;
+    width: var(--width);
+    height: var(--height);
+    border-radius: 3px;
+    background-color: inherit;
+    transition: all 0.3s ease-in-out; 
+    transform-origin: right center;
+}
+
+.color-settings:before{
+    left: var(--left-before);
+    top: var(--top-before);
+    transform: rotate(var(--rotate-before));
+}
+
+.color-settings:after{
+    left: var(--left-after);
+    top: var(--top-after);
+    transform: rotate(var(--rotate-after));
+}
