@@ -119,12 +119,12 @@ function addColor(){
 function setBodyGradient(){
     document.getElementsByTagName("body")[0].style.backgroundImage = gradient.gradient
 
-    let ul = document.getElementById("color-list")
+   let ul = document.getElementById("color-list")
     
     for (const [key, element] of Object.entries(ul.children)) {
         let ID = element.getAttribute("color-ID");
         let rgb = gradient.colors[ID].rgb;
-        element.style.setProperty("border-color", rgb)
+        element.style.setProperty("--color", rgb)
     }
     
     
