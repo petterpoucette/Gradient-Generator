@@ -8,14 +8,23 @@ function toggleSettings(e){
     icon = e.children[0];
     item = e.parentNode
     state = e.children[0].getAttribute("state")
-    console.log();
     animateListItem(item, state)
     animateEditIcons(item.nextSibling, state)
     settingsIconAnimation(icon)
 }
 
-function lockColor(e){
-   animateLock(e)
+function lockColor(e, ID){
+    let edit = e.parentNode.previousSibling.lastChild
+    let smallLock = e.parentNode.nextSibling
+
+    gradient.colors[ID].lock = !gradient.colors[ID].lock
+    animateLock(e)
+    
+    setTimeout(() => {
+        toggleSettings(edit)
+        smallLock.style.setProperty("display", gradient.colors[ID].lock ? "block" : "none")
+    }, 350);
+    
 }
 
 
@@ -116,9 +125,10 @@ function setListItem(ID ,ul){
             '<div state="closed" class="color-settings-icon"></div>' + 
         '</div></div>' +
         '<div class="edit-icons">' +
-            '<img class="edit-icon" src="assets/delete.png" onclick="removeColor(this,' + ID + ')" value="delete">' + 
-            '<div class="lock-icon" state="unlocked" onclick="lockColor(this)"></div>' + 
-        '</div>'
+            '<img class="edit-icon" src="assets/delete.png" onclick="removeColor(this,' + ID + ')">' + 
+            '<div class="lock-icon" state="unlocked" onclick="lockColor(this, ' + ID+ ')"></div>' + 
+        '</div>' + 
+        '<div class="lock-icon small" ></div>'
 
 
     li.innerHTML  = content

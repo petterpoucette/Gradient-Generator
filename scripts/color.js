@@ -15,6 +15,8 @@ class Color{
         this.ID = ID
 
         this.hex = "#" + this.translateToHex(this.r, this.g, this.b)
+
+        this.lock = false
     }
 
     /**
@@ -44,11 +46,14 @@ class Color{
      * Generates a new value
      */
     newColor(){
-        this.r = this.randomValue()
-        this.g = this.randomValue()
-        this.b = this.randomValue()
+        if(!this.lock){
+            this.r = this.randomValue()
+            this.g = this.randomValue()
+            this.b = this.randomValue()
 
-        this.updateRGB()
+            this.updateRGB()
+        }
+        
     }
 
     /**
