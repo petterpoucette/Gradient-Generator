@@ -3,7 +3,8 @@
 html, body {
     margin: 0;
     height: 100vh;
-    font-family: 'Courier New', Courier, monospace
+    font-family: 'Courier New', Courier, monospace;
+    transition: background 0.5s ease-in-out;
 }
 
 #menu {
@@ -45,6 +46,7 @@ html, body {
     border-radius: 10px;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3) ;
     transition: all 0.4s ease-in-out;
+    overflow-x: hidden;
 }
 
 h1 {
@@ -78,17 +80,15 @@ h1 {
 }
 
 .color-list > li {
-    transition: all 0.3s ease-in-out; 
+    
     position: relative;
     right: 0;
+    top: 0;
     margin: 0 auto;
     margin-top: 10px;
     background-color: white;
-    /*border-color: black;
-    border-width: 5px;
-    border-style: solid;*/
     padding: 20px;
-    padding-left: 40px;
+    padding-left: 30px;
     border-radius: 10px;
     width: 75%;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1) ;
@@ -96,20 +96,31 @@ h1 {
     justify-content: space-around;
     align-items: center;
     --color: black;
-   
+    overflow: hidden;
+    z-index: 20;
+    transition: all 0.5s ease-in-out;
 }
 
 .color-list > li:before {
     content: '';
     background-color: var(--color);
     position: absolute;
-    left: 0;
+    left: -1px;
     top: 0;
     border-radius: 10px 0 0 10px;
     height: 70px;
-    width: 20px
+    width: 20px;
+    z-index: 10;
 }
 
+.input-group{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    right: 0;
+    transition: all 0.3s ease-in-out; 
+}
 
 
 input::-webkit-outer-spin-button,
@@ -130,7 +141,7 @@ input[type=number] {
     width: 30px;
     height: 30px;
     background-color: white;
-    margin-left: 40px;
+    margin-left: 30px;
     
 }
 
@@ -140,7 +151,7 @@ input[type=number] {
     height: 6px;
     transform: translateY(-50%);
     top: 50%;
-    background-color: rgb(97, 96, 96);
+    background-color:black;
     transition: margin 0.2s ease-in-out; 
     border-radius: 3px;
     --left-before:12px;
@@ -174,4 +185,59 @@ input[type=number] {
     left: var(--left-after);
     top: var(--top-after);
     transform: rotate(var(--rotate-after));
+}
+
+.edit-icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    position: absolute;
+    right: -70px;
+    transition: all 0.4s ease-in-out; 
+    --lock-c:  rgb(223, 219, 0);
+
+}
+
+.edit-icon {
+    max-width: 25px; 
+    margin-left: 20px;
+}
+
+.lock-icon{
+    background-color: var(--lock-c);
+    width: 24px;
+    height: 20px;
+    border-radius: 5px;
+    margin-left: 20px;
+    --lock: -12px;
+    --height: 1;
+    transform: scale(0.8) translateY(3px); 
+    transition: all 0.3s ease-in-out; 
+}
+
+.lock-icon:after{
+    content: '';
+    position: absolute;
+    background-color: white;
+    height: 4px;
+    transform: scaleY(var(--height));
+    width: 50%;
+    top: -4px;
+    left: 50%;
+    transition: inherit;
+    transform-origin: bottom right;
+}
+
+.lock-icon:before{
+    content: '';
+    width: 10px;
+    height: 15px;
+    position: absolute;
+    transform: translateX(-50%);
+    border: 3px solid var(--lock-c);
+    top: var(--lock);
+    left: 49%;
+    border-radius: 5px;
+    transition: inherit;
+    transform-origin: top center;
 }

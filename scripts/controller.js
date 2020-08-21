@@ -8,54 +8,14 @@ function toggleSettings(e){
     icon = e.children[0];
     item = e.parentNode
     state = e.children[0].getAttribute("state")
+    console.log();
     animateListItem(item, state)
+    animateEditIcons(item.nextSibling, state)
     settingsIconAnimation(icon)
-    
 }
 
-function settingsIconAnimation(e){
-    if(e.getAttribute("state") == "closed"){
-        e.style.setProperty('--left-after', '0')
-        e.style.setProperty('--left-before', '0')
-        e.style.setProperty('--width', '14px')
-        e.style.setProperty('margin-left', '12px')
-    
-        setTimeout(() => {
-            e.style.setProperty('width', '0')
-            e.style.setProperty('--height', '4px')
-            e.style.setProperty('--rotate-after', '-45deg')
-            e.style.setProperty('--rotate-before', '45deg')
-            e.style.setProperty('--top-after', '-1px')
-            e.style.setProperty('--top-before', '1px')
-        }, 200);
-        e.setAttribute("state", "open")
-    } else if(e.getAttribute("state") == "open"){
-        
-        e.style.setProperty('--height', '6px')
-        e.style.setProperty('--rotate-after', '0deg')
-        e.style.setProperty('--rotate-before', '0deg')
-        e.style.setProperty('--top-after', '0')
-        e.style.setProperty('--top-before', '0')
-       
-        setTimeout(() => {
-            e.style.setProperty('width', '6px')
-            e.style.setProperty('--left-after', '24px')
-            e.style.setProperty('--left-before', '12px')
-            e.style.setProperty('--width', '6px')
-            e.style.setProperty('margin-left', '0')
-        }, 200);
-        e.setAttribute("state", "closed")
-    }
-}
-
-function animateListItem(e, state){
-    if(state == "closed"){
-        e.style.setProperty('right', "150px")
-    } else if(state == "open"){
-        e.style.setProperty('right', "0")
-    }
-    
-
+function lockColor(e){
+   animateLock(e)
 }
 
 
@@ -75,6 +35,7 @@ document.addEventListener("keypress", function onEvent(event) {
     if (event.key === "Enter") {
         gradient.randomizeColors()
         setBodyGradient()
+        setListItemColor()
         newColor()
     } 
 });
@@ -87,6 +48,7 @@ function setList(){
     for (const [key, color] of Object.entries(gradient.colors)) {
         setListItem(key,ul)  
     }
+    setListItemColor()
 }
 
 /**
@@ -95,9 +57,14 @@ function setList(){
  * @param {string} ID - ID of the color to remove
  */
 function removeColor(e, ID){
-    e.parentNode.remove();
+    removeAnimation(e.parentNode.parentNode)
     gradient.removeColorFromGradient(ID)
     setBodyGradient()
+    setTimeout(() => {
+        e.parentNode.parentNode.remove();
+    }, 1000);
+    
+    
 }
 
 
@@ -111,6 +78,7 @@ function addColor(){
     setListItem(ID,ul)
     newColor()
     setBodyGradient()
+    setListItemColor()
 }
 
 /**
@@ -118,16 +86,16 @@ function addColor(){
  */
 function setBodyGradient(){
     document.getElementsByTagName("body")[0].style.backgroundImage = gradient.gradient
+}
 
-   let ul = document.getElementById("color-list")
+function setListItemColor(){
+    let ul = document.getElementById("color-list")
     
     for (const [key, element] of Object.entries(ul.children)) {
         let ID = element.getAttribute("color-ID");
         let rgb = gradient.colors[ID].rgb;
         element.style.setProperty("--color", rgb)
     }
-    
-    
 }
 
 
@@ -137,69 +105,23 @@ function setBodyGradient(){
  * @param {HTMLElement} ul 
  */
 function setListItem(ID ,ul){
-    //create elements
     const li = document.createElement('li');
-    //const br = document.createElement('br')
-    const r = document.createElement('input')
-    const g = document.createElement('input')
-    const b = document.createElement('input')
-
-    const rgbSpan = document.createElement('span')
-    const p = document.createElement('span')
-    const c1 = document.createElement('span')
-    const c2 = document.createElement('span')
-
-    const settingsIconBackground = document.createElement('div')
-    const settingsIcon = document.createElement('div')
-
-    const button = document.createElement('input')
-
-    rgbSpan.innerHTML = "rgb("
-    p.innerHTML = ")"
-    c1.innerHTML = ", "
-    c2.innerHTML = ", "
-
-    //Add attributes to elements
-    r.setAttribute("color-ID", ID)
-    r.setAttribute("color", "r")
-    r.setAttribute("class", "color-input")
-    r.setAttribute("type", "text")
-
-    g.setAttribute("color-ID", ID)
-    g.setAttribute("color", "g")
-    g.setAttribute("class", "color-input")
-    g.setAttribute("type", "text")
-
-    b.setAttribute("color-ID", ID)
-    b.setAttribute("color", "b")
-    b.setAttribute("class", "color-input")
-    b.setAttribute("type", "text")
-
-    settingsIconBackground.setAttribute("class", "color-settings-icon-background")
-    settingsIconBackground.setAttribute("onClick", "toggleSettings(this)")
-    settingsIcon.setAttribute("state", "closed")
-    settingsIcon.setAttribute("class", "color-settings-icon")
-
-    button.setAttribute("type", "button")
-    button.setAttribute("onclick", "removeColor(this, " + ID + ")")
-    button.setAttribute("value", "delete")
-
-
+ 
     li.setAttribute("color-ID", ID)
-    //Add children to li
+    let content = '<div class="input-group">rgb(' +
+        '<input color-id="' + ID +'" color="r" class="color-input" type="text">,' +
+        '<input color-id="' + ID +'" color="g" class="color-input" type="text">,' + 
+        '<input color-id="' + ID +'" color="b" class="color-input" type="text">)' + 
+        '<div class="color-settings-icon-background" onclick="toggleSettings(this)">' + 
+            '<div state="closed" class="color-settings-icon"></div>' + 
+        '</div></div>' +
+        '<div class="edit-icons">' +
+            '<img class="edit-icon" src="assets/delete.png" onclick="removeColor(this,' + ID + ')" value="delete">' + 
+            '<div class="lock-icon" state="unlocked" onclick="lockColor(this)"></div>' + 
+        '</div>'
 
-    settingsIconBackground.appendChild(settingsIcon)
 
-    //li.appendChild(br)
-    li.appendChild(rgbSpan)
-    li.appendChild(r)
-    li.appendChild(c1)
-    li.appendChild(g)
-    li.appendChild(c2)
-    li.appendChild(b)
-    li.appendChild(p)
-    li.appendChild(settingsIconBackground)
-    //li.appendChild(button)
+    li.innerHTML  = content
 
     ul.appendChild(li)
 }
