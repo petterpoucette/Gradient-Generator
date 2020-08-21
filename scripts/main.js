@@ -6,7 +6,8 @@
 let gradient = new Gradient(3)
 var colors
 
-setBodyGradient()
+
 setList()
+setBodyGradient()
 newColor()
 

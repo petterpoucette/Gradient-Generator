@@ -55,6 +55,7 @@ h1 {
 .color-list {
     list-style-type: none;
     counter-reset: color;
+    padding: 0;
 }
 
 .color-input {
@@ -63,6 +64,7 @@ h1 {
     border-bottom: 1px solid gray;
     font-family: 'Courier New', Courier, monospace;
     font-size: 12pt;
+    height: 12pt;
     text-align: center;
 }
 
@@ -73,14 +75,32 @@ h1 {
 }
 
 .color-list > li {
+    transition: all 0.3s ease-in-out; 
+    position: relative;
+    right: 0;
+    margin: 0 auto;
     margin-top: 10px;
+    background-color: white;
+    border-color: black;
+    border-width: 5px;
+    border-style: solid;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1) ;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+   
 }
-
+/*
 .color-list > li:before {
     content: "Color " counter(color) ": ";
     counter-increment: color;
     font-weight: bold;
 }
+*/
+
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -93,13 +113,25 @@ input[type=number] {
     -moz-appearance:textfield; /* Firefox */
 }
 
-.color-settings {
+
+
+
+.color-settings-icon-background{
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    margin-left: 40px;
+    
+}
+
+.color-settings-icon {
     position: relative;
-    top: 20px;
-    left: 20px;
     width: 6px;
     height: 6px;
-    background-color: gray;
+    transform: translateY(-50%);
+    top: 50%;
+    background-color: rgb(97, 96, 96);
+    transition: margin 0.2s ease-in-out; 
     border-radius: 3px;
     --left-before:12px;
     --left-after: 24px;
@@ -111,7 +143,7 @@ input[type=number] {
     --top-after: 0;
 }
 
-.color-settings:before, .color-settings:after{
+.color-settings-icon:before, .color-settings-icon:after{
     content: '';
     position: absolute;
     width: var(--width);
@@ -122,13 +154,13 @@ input[type=number] {
     transform-origin: right center;
 }
 
-.color-settings:before{
+.color-settings-icon:before{
     left: var(--left-before);
     top: var(--top-before);
     transform: rotate(var(--rotate-before));
 }
 
-.color-settings:after{
+.color-settings-icon:after{
     left: var(--left-after);
     top: var(--top-after);
     transform: rotate(var(--rotate-after));

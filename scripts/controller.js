@@ -5,11 +5,20 @@
 
 
 function toggleSettings(e){
-    console.log(e.getAttribute("open"));
-    if(e.getAttribute("open") == "false"){
+    icon = e.children[0];
+    item = e.parentNode
+    state = e.children[0].getAttribute("state")
+    animateListItem(item, state)
+    settingsIconAnimation(icon)
+    
+}
+
+function settingsIconAnimation(e){
+    if(e.getAttribute("state") == "closed"){
         e.style.setProperty('--left-after', '0')
         e.style.setProperty('--left-before', '0')
         e.style.setProperty('--width', '14px')
+        e.style.setProperty('margin-left', '12px')
     
         setTimeout(() => {
             e.style.setProperty('width', '0')
@@ -18,9 +27,9 @@ function toggleSettings(e){
             e.style.setProperty('--rotate-before', '45deg')
             e.style.setProperty('--top-after', '-1px')
             e.style.setProperty('--top-before', '1px')
-        }, 300);
-        e.setAttribute("open", "true")
-    } else if(e.getAttribute("open") == "true"){
+        }, 200);
+        e.setAttribute("state", "open")
+    } else if(e.getAttribute("state") == "open"){
         
         e.style.setProperty('--height', '6px')
         e.style.setProperty('--rotate-after', '0deg')
@@ -33,14 +42,22 @@ function toggleSettings(e){
             e.style.setProperty('--left-after', '24px')
             e.style.setProperty('--left-before', '12px')
             e.style.setProperty('--width', '6px')
-        }, 300);
-        e.setAttribute("open", "false")
+            e.style.setProperty('margin-left', '0')
+        }, 200);
+        e.setAttribute("state", "closed")
     }
+}
 
-
+function animateListItem(e, state){
+    if(state == "closed"){
+        e.style.setProperty('right', "150px")
+    } else if(state == "open"){
+        e.style.setProperty('right', "0")
+    }
     
 
 }
+
 
 /**
  * Toggle the edit menu
@@ -68,7 +85,7 @@ document.addEventListener("keypress", function onEvent(event) {
 function setList(){
     let ul = document.getElementById("color-list")
     for (const [key, color] of Object.entries(gradient.colors)) {
-        setListItem(key, ul)  
+        setListItem(key,ul)  
     }
 }
 
@@ -91,7 +108,7 @@ function addColor(){
     gradient.addColorToGradient()
     let ul = document.getElementById("color-list")
     let ID = gradient.colorID - 1
-    setListItem(ID, ul)
+    setListItem(ID,ul)
     newColor()
     setBodyGradient()
 }
@@ -101,6 +118,16 @@ function addColor(){
  */
 function setBodyGradient(){
     document.getElementsByTagName("body")[0].style.backgroundImage = gradient.gradient
+
+    let ul = document.getElementById("color-list")
+    
+    for (const [key, element] of Object.entries(ul.children)) {
+        let ID = element.getAttribute("color-ID");
+        let rgb = gradient.colors[ID].rgb;
+        element.style.setProperty("border-color", rgb)
+    }
+    
+    
 }
 
 
@@ -109,25 +136,29 @@ function setBodyGradient(){
  * @param {string} ID 
  * @param {HTMLElement} ul 
  */
-function setListItem(ID, ul){
-    
+function setListItem(ID ,ul){
     //create elements
     const li = document.createElement('li');
-    const br = document.createElement('br')
+    //const br = document.createElement('br')
     const r = document.createElement('input')
     const g = document.createElement('input')
     const b = document.createElement('input')
 
-    const rSpan = document.createElement('span')
-    const gSpan = document.createElement('span')
-    const bSpan = document.createElement('span')
+    const rgbSpan = document.createElement('span')
+    const p = document.createElement('span')
+    const c1 = document.createElement('span')
+    const c2 = document.createElement('span')
+
+    const settingsIconBackground = document.createElement('div')
+    const settingsIcon = document.createElement('div')
 
     const button = document.createElement('input')
 
-    rSpan.innerHTML = "r: "
-    gSpan.innerHTML = "g: "
-    bSpan.innerHTML = "b: "
-    
+    rgbSpan.innerHTML = "rgb("
+    p.innerHTML = ")"
+    c1.innerHTML = ", "
+    c2.innerHTML = ", "
+
     //Add attributes to elements
     r.setAttribute("color-ID", ID)
     r.setAttribute("color", "r")
@@ -144,19 +175,31 @@ function setListItem(ID, ul){
     b.setAttribute("class", "color-input")
     b.setAttribute("type", "text")
 
+    settingsIconBackground.setAttribute("class", "color-settings-icon-background")
+    settingsIconBackground.setAttribute("onClick", "toggleSettings(this)")
+    settingsIcon.setAttribute("state", "closed")
+    settingsIcon.setAttribute("class", "color-settings-icon")
+
     button.setAttribute("type", "button")
     button.setAttribute("onclick", "removeColor(this, " + ID + ")")
     button.setAttribute("value", "delete")
 
+
+    li.setAttribute("color-ID", ID)
     //Add children to li
-    li.appendChild(br)
-    li.appendChild(rSpan)
+
+    settingsIconBackground.appendChild(settingsIcon)
+
+    //li.appendChild(br)
+    li.appendChild(rgbSpan)
     li.appendChild(r)
-    li.appendChild(gSpan)
+    li.appendChild(c1)
     li.appendChild(g)
-    li.appendChild(bSpan)
+    li.appendChild(c2)
     li.appendChild(b)
-    li.appendChild(button)
+    li.appendChild(p)
+    li.appendChild(settingsIconBackground)
+    //li.appendChild(button)
 
     ul.appendChild(li)
 }
