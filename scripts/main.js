@@ -11,3 +11,8 @@ setList()
 setBodyGradient()
 newColor()
 
+// TODO: Design add button and add animation to list
+// TODO: Add translation from hex to rgb 
+// TODO: Add functionality to switch between rgb and hex 
+
+
