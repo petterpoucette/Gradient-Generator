@@ -88,7 +88,7 @@ h1 {
     margin-top: 10px;
     background-color: white;
     padding: 20px;
-    padding-left: 30px;
+    padding-left: 50px;
     border-radius: 10px;
     width: 75%;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1) ;
@@ -105,12 +105,24 @@ h1 {
     content: '';
     background-color: var(--color);
     position: absolute;
-    left: -1px;
-    top: 0;
-    border-radius: 10px 0 0 10px;
-    height: 70px;
-    width: 20px;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
     z-index: 10;
+}
+
+.color-list > li:after {
+    content: '';
+    background-image: linear-gradient(90deg, white 80%, rgba(255, 255, 255, 0));
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 70px;
+    width: 60px;
+    z-index: 5;
 }
 
 .input-group{
@@ -120,6 +132,7 @@ h1 {
     position: relative;
     right: 0;
     transition: all 0.3s ease-in-out; 
+    z-index: 2;
 }
 
 
@@ -141,7 +154,7 @@ input[type=number] {
     width: 30px;
     height: 30px;
     background-color: white;
-    margin-left: 30px;
+    margin-left: 15px;
     
 }
 

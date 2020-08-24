@@ -6,16 +6,18 @@
 
 function toggleSettings(e){
     icon = e.children[0];
+    
     item = e.parentNode
     state = e.children[0].getAttribute("state")
     animateListItem(item, state)
-    animateEditIcons(item.nextSibling, state)
+    animateEditIcons(item.nextElementSibling, state)
     settingsIconAnimation(icon)
 }
 
 function lockColor(e, ID){
-    let edit = e.parentNode.previousSibling.lastChild
-    let smallLock = e.parentNode.nextSibling
+    let edit = e.parentNode.previousElementSibling.lastElementChild
+    console.log(edit);
+    let smallLock = e.parentNode.nextElementSibling
 
     gradient.colors[ID].lock = !gradient.colors[ID].lock
     animateLock(e)
@@ -41,7 +43,7 @@ function toggleMenu(el){
  * it is
  */
 document.addEventListener("keypress", function onEvent(event) {
-    if (event.key === "Enter") {
+    if (event.keyCode == 32) {
         gradient.randomizeColors()
         setBodyGradient()
         setListItemColor()
@@ -117,6 +119,24 @@ function setListItem(ID ,ul){
     const li = document.createElement('li');
  
     li.setAttribute("color-ID", ID)
+
+    let content  = `
+    <div class="input-group">rgb(
+        <input color-id="` + ID + `" color="r" class="color-input" type="text">,
+        <input color-id="` + ID + `" color="g" class="color-input" type="text">, 
+        <input color-id="` + ID + `" color="b" class="color-input" type="text">)
+        <div class="color-settings-icon-background" onclick="toggleSettings(this)">
+            <div state="closed" class="color-settings-icon"></div>
+        </div>
+    </div>
+    <div class="edit-icons">
+        <img class="edit-icon" src="assets/delete.png" onclick="removeColor(this,` + ID + `)">
+        <div class="lock-icon" state="unlocked" onclick="lockColor(this, ` + ID+ `)"></div>
+    </div>
+    <div class="lock-icon small" ></div>`
+
+
+    /*
     let content = '<div class="input-group">rgb(' +
         '<input color-id="' + ID +'" color="r" class="color-input" type="text">,' +
         '<input color-id="' + ID +'" color="g" class="color-input" type="text">,' + 
@@ -129,7 +149,7 @@ function setListItem(ID ,ul){
             '<div class="lock-icon" state="unlocked" onclick="lockColor(this, ' + ID+ ')"></div>' + 
         '</div>' + 
         '<div class="lock-icon small" ></div>'
-
+    */
 
     li.innerHTML  = content
 
