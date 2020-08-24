@@ -1,53 +1,40 @@
 function settingsIconAnimation(e){
-    if(e.getAttribute("state") == "closed"){
-        e.style.setProperty('--left-after', '0')
-        e.style.setProperty('--left-before', '0')
-        e.style.setProperty('--width', '14px')
-        e.style.setProperty('margin-left', '6px')
     
-        setTimeout(() => {
-            e.style.setProperty('width', '0')
-            e.style.setProperty('--height', '4px')
-            e.style.setProperty('--rotate-after', '-45deg')
-            e.style.setProperty('--rotate-before', '45deg')
-            e.style.setProperty('--top-after', '-1px')
-            e.style.setProperty('--top-before', '1px')
-        }, 200);
-        e.setAttribute("state", "open")
-    } else if(e.getAttribute("state") == "open"){
-        
-        e.style.setProperty('--height', '6px')
-        e.style.setProperty('--rotate-after', '0deg')
-        e.style.setProperty('--rotate-before', '0deg')
-        e.style.setProperty('--top-after', '0')
-        e.style.setProperty('--top-before', '0')
-       
-        setTimeout(() => {
-            e.style.setProperty('width', '6px')
-            e.style.setProperty('--left-after', '24px')
-            e.style.setProperty('--left-before', '12px')
-            e.style.setProperty('--width', '6px')
-            e.style.setProperty('margin-left', '0')
-        }, 200);
-        e.setAttribute("state", "closed")
-    }
+    let state = (e.getAttribute("state") == "closed") ? false : (e.getAttribute("state") == "open") ? true : undefined
+    let waitClosed = state ?  0 : 200
+    let waitOpen = state ? 200 : 0
+    
+    setTimeout(() => {
+        e.style.setProperty('width', state ? '6px' : '0')
+    }, 200);
+
+    setTimeout(() => {
+        e.style.setProperty('--height', state ? '6px' : '4px')
+        e.style.setProperty('--rotate-after',  state ? '0deg' : '-45deg')
+        e.style.setProperty('--rotate-before', state ? '0deg' :'45deg')
+        e.style.setProperty('--top-after', state ? '0' : '-1px')
+        e.style.setProperty('--top-before', state? '0' : '1px')
+    }, waitClosed);
+
+    setTimeout(() => {
+        e.style.setProperty('--left-after', state ? '24px' : '0')
+        e.style.setProperty('--left-before', state ? '12px' :'0')
+        e.style.setProperty('--width', state ? '6px' :'14px')
+        e.style.setProperty('margin-left', state ? '0' :'6px')
+    }, waitOpen);
+    
+
+    e.setAttribute("state", state ? "closed" : "open")
 }
 
-function animateListItem(e, state){
-    if(state == "closed"){
-        e.style.setProperty('right', "100px")
-    } else if(state == "open"){
-        e.style.setProperty('right', "0")
-    }
-}
+animateListItem = (e, state) => e.style.setProperty('right', 
+                                state == "closed" ? "100px" : 
+                                state == "open" ? "0": undefined)
 
-function animateEditIcons(e, state){
-    if(state == "closed"){
-        e.style.setProperty('right', "30px")
-    } else if(state == "open"){
-        e.style.setProperty('right', "-70px")
-    }
-}
+animateEditIcons = (e, state) => e.style.setProperty('right', 
+                                state == "closed" ? "30px" : 
+                                state == "open" ? "-70px": undefined)
+
 
 function removeAnimation(e){
     e.style.setProperty("right", "100%")
@@ -59,16 +46,9 @@ function removeAnimation(e){
 }
 
 function animateLock(e){
-    if(e.getAttribute("state") == "unlocked"){
-        e.style.setProperty("--height", "0")
-        e.style.setProperty("--lock", "-8px")
-        e.parentNode.style.setProperty("--lock-c", "grey")
-        e.setAttribute("state", "locked")
-    } else if(e.getAttribute("state") == "locked"){
-        e.style.setProperty("--height", "1")
-        e.style.setProperty("--lock", "-12px")
-        e.parentNode.style.setProperty("--lock-c", "rgb(223, 219, 0)")
-        e.setAttribute("state", "unlocked")
-    }
-   
+    let state = (e.getAttribute("state") == "unlocked") ? false : (e.getAttribute("state") == "locked") ? true : undefined
+    e.style.setProperty("--height", state ? "1" : "0")
+    e.style.setProperty("--lock", state ? "-12px" : "-8px")
+    e.parentNode.style.setProperty("--lock-c", state ? "rgb(223, 219, 0)" : "grey")
+    e.setAttribute("state", state ? "unlocked" :  "locked")
 }
